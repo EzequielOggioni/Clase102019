@@ -14,11 +14,10 @@ namespace WindowsFormsApp1
     public partial class FrmAdminEmpleados : Form
     {
 
-        private List<Persona> personas;
+        public Persona persona;
         public FrmAdminEmpleados()
         {
-            InitializeComponent();
-            this.personas = new List<Persona>();
+            InitializeComponent();            
         }
 
         private void FrmAdminEmpleados_Load(object sender, EventArgs e)
@@ -29,21 +28,44 @@ namespace WindowsFormsApp1
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            
-            switch ((ETipoEmpleado)this.cmbTipoEmpleado.SelectedItem)
-            {
-                case ETipoEmpleado.Empleado:
-                    this.personas.Add(new Empleado(this.txtNombre.Text,int.Parse(this.txtCuil.Text ),float.Parse(this.txtSueldo.Text )));
-                    break;
-                case ETipoEmpleado.Jefe:
-                    this.personas.Add(new Jefe(this.txtNombre.Text, int.Parse(this.txtCuil.Text), float.Parse(this.txtSueldo.Text),int.Parse(this.txtBono.Text))); ;
-                    break;
-                case ETipoEmpleado.Vendedor:
-                    this.personas.Add(new Vendedor(this.txtNombre.Text, int.Parse(this.txtCuil.Text), float.Parse(this.txtSueldo.Text),int.Parse(this.txtObjetivo.Text)));
-                    break;
-            }
 
-            this.limpiar();
+            try
+            {
+                switch ((ETipoEmpleado)this.cmbTipoEmpleado.SelectedItem)
+                {
+                    case ETipoEmpleado.Empleado:
+                        this.persona = new Empleado(this.txtNombre.Text, int.Parse(this.txtCuil.Text), float.Parse(this.txtSueldo.Text));
+                        break;
+                    case ETipoEmpleado.Jefe:
+                        this.persona = new Jefe(this.txtNombre.Text, double.Parse(this.txtCuil.Text), float.Parse(this.txtSueldo.Text), int.Parse(this.txtBono.Text));
+                        break;
+                    case ETipoEmpleado.Vendedor:
+                        this.persona = new Vendedor(this.txtNombre.Text, double.Parse(this.txtCuil.Text), float.Parse(this.txtSueldo.Text), int.Parse(this.txtObjetivo.Text));
+                        break;
+                }                
+                this.DialogResult = DialogResult.OK;
+            }            
+            catch (FormatException ex)
+            {
+                MessageBox.Show("Los campos numericos no deben tener letras");
+            }
+            catch (OverflowException ex)
+            {
+                MessageBox.Show("El valor ingresado es demasiado grande");
+            }
+            catch (Exception ex)
+            {
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            finally
+            {
+                this.limpiar();
+            }
+            
+            
+            
 
         }
 
@@ -73,17 +95,14 @@ namespace WindowsFormsApp1
 
         private void btnMostrar_Click(object sender, EventArgs e)
         {
-            foreach (Persona item in this.personas)
-            {
-                MessageBox.Show(item.Mostrar());                
 
-            }
+         //   MessageBox.Show(this.persona.Mostrar());                
         }
 
         private void btnAumentar_Click(object sender, EventArgs e)
         {
-            FrmAumentos frmAumentos = new FrmAumentos(this.personas);
-            frmAumentos.Show();
+//            FrmAumentos frmAumentos = new FrmAumentos();
+  //          frmAumentos.Show();
         }
     }
 }

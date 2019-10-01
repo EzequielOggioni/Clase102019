@@ -7,7 +7,7 @@ namespace Entidades
     public class Vendedor : Empleado
     {
         public int Objetivo { get; set; }
-        public Vendedor(string nombre, int cuil, float sueldo, int objetivo) : base(nombre, cuil, sueldo)
+        public Vendedor(string nombre, double cuil, float sueldo, int objetivo) : base(nombre, cuil, sueldo)
         {
             this.Objetivo = objetivo;
         }

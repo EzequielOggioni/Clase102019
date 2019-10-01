@@ -9,7 +9,7 @@ namespace Entidades
         
 
         public float Sueldo { get; set; }
-        public Empleado(string nombre, int cuil, float sueldo): base (nombre, cuil)
+        public Empleado(string nombre, double cuil, float sueldo): base (nombre, cuil)
         {
             this.Sueldo = sueldo;
         }
